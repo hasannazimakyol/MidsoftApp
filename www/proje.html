@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <title>Proje</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+
+    <!-- Bootstrap -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"
+          integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+
+    <!-- Font-Awesome -->
+
+    <!--<link rel="stylesheet" href="lib/font/fontAwesome/css/font-awesome.css">-->
+
+    <!--jquery -->
+    <script type="text/javascript" src="lib/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+    <!--<link rel="stylesheet" type="text/css" href="lib/evoEngine/css/evoInputs.css">-->
+
+    <!--Alertify -->
+    <script type="text/javascript" src="lib/alertifyjs-1.8/alertify.js"></script>
+    <!--<link rel="stylesheet" href="lib/alertifyjs-1.8/css/alertify.css">-->
+
+    <link rel="stylesheet" href="lib/css/global.css">
+
+    <!--WEBSERVICE -->
+    <script type="text/javascript" src="lib/js/server.js"></script>
+    <script type="text/javascript" src="lib/js/master.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+
+    <script>
+
+        let openProjectUrl = localStorage.getItem('serverAdress') + '?function=openProject&id=';
+        let oid = getUrlParameter("id");
+        console.log(oid);
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: openProjectUrl + oid,
+                dataType: "json",
+                // contentType: "application/json; charset=utf-8",
+                // async: true, // set to false if you don't mind the page pausing while waiting for response
+                // cache: false,
+                // dataType: "json",
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+
+                success: function (response) {
+                    let myData = response['data'][0];
+                    let a = myData['BitisTarihi'].indexOf(" ");
+
+                    $('#projectName').val(myData['ProjeAdi']);
+                    $('#projectSDate').val(myData['BaslangicTarihi'].substring(0, a));
+                    $('#projectFDate').val(myData['BitisTarihi'].substring(0, a));
+                    $('#projectPercent').val(myData['Tamamlandi']);
+                    $('#projectPriority').val(myData['Oncelik']);
+                    $('#projectDescription').val(myData['Aciklama']);
+                    $("#projectPersonnelButtons").append('<a><input value="İş Bölümleri" class="btn btn-info" id="workButton" type="button" onclick="window.location=(\'projeModuller.html?id=' + myData['Oid'] + '\');"></input></a>');
+                    $("#projectPersonnelButtons").append('<a><input value="Personeller" class="btn btn-info" id="personnelButton" type="button" onclick="window.location=(\'projectPersoneller.html?id=' + myData['Oid'] + '\');"></input></a>');
+
+                    //$("#projects").append('<a><input name="admin" id=' + response['data'][i]['Oid'] + ' value=' + response['data'][i]['ProjeAdi'] + ' class="btn-project btn-outline-primary m-2 p-2 text-capitalize" type="button" onclick="window.location=(\'proje.html?id=' + response['data'][i]['Oid'] + '\');"</a>');
+
+                },
+                error: function (jqXHR, exception) {
+                    let msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Not connect.\n Verify Network.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    console.log(msg);
+                },
+            });
+
+        })
+    </script>
+
+</head>
+<body>
+<header class="header">
+    <ul class="nav justify-content-center bg-logo shadow p-2">
+        <li class="nav-item">
+            <a href="#">
+                <img id="logo" src="img/mid.png" height="70rem;" alt="Logo">
+            </a>
+        </li>
+    </ul>
+
+    <h6 class="text-center display-6 my-4 header1">Proje Bilgi Sayfası</h6>
+    <hr>
+</header>
+
+<form class="mx-5 my-2">
+    <div class="form-group">
+        <label for="projectName">Proje Adı</label>
+        <input class="form-control font-italic text-capitalize" disabled type="text" id="projectName" name="projectName" value="">
+    </div>
+    <div class="form-group">
+        <label for="companyName">Şirket Adı</label>
+        <input class="form-control font-italic text-capitalize" disabled type="text" id="companyName" name="companyName" value="">
+    </div>
+    <div class="form-group">
+        <label for="projectSubject">Konu</label>
+        <input class="form-control font-italic text-capitalize" disabled type="text" id="projectSubject" name="projectSubject" value="">
+    </div>
+    <div class="form-group">
+        <label for="projectSDate">Başlangıç Tarihi</label>
+        <input class="form-control font-italic text-capitalize" disabled type="text" id="projectSDate" name="projectSDate" value="">
+    </div>
+    <div class="form-group">
+        <label for="projectFDate">Bitiş Tarihi</label>
+        <input class="form-control font-italic text-capitalize" disabled type="text" id="projectFDate" name="projectFDate" value="">
+    </div>
+    <div class="form-group">
+        <label for="projectPercent">Yüzdelik</label>
+        <input class="form-control font-italic text-capitalize" disabled type="text" id="projectPercent" name="projectPercent" value="">
+    </div>
+    <div class="form-group">
+        <label for="projectPriority">Öncelik</label>
+        <input class="form-control font-italic text-capitalize" disabled type="text" id="projectPriority" name="projectPriority" value="">
+    </div>
+    <div class="form-group">
+        <label for="projectDescription">Açıklama</label>
+        <textarea class="form-control rounded-0 font-italic text-capitalize" disabled type="text" id="projectDescription" name="projectDescription" value=""></textarea>
+    </div>
+</form>
+
+<div id="projectPersonnelButtons" class="d-flex justify-content-around m-4">
+
+    <!--<a href="moduller.html">
+        <button class="btn btn-info" id="workButton" name="workButton" type="button">İş Bölümleri</button>
+    </a>
+    <a id="projectPersonnelButton" href="projectPersoneller.html">
+        <button class="btn btn-info" id="personnelButton" type="button">Personeller</button>
+    </a>-->
+
+</div>
+
+
+</body>
+</html>

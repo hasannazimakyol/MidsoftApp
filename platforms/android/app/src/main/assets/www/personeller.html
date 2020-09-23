@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Personeller</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+
+    <!-- Bootstrap -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"
+          integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+
+    <!-- Font-Awesome -->
+
+    <!--<link rel="stylesheet" href="lib/font/fontAwesome/css/font-awesome.css">-->
+
+    <!--jquery -->
+    <script type="text/javascript" src="lib/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+    <!--<link rel="stylesheet" type="text/css" href="lib/evoEngine/css/evoInputs.css">-->
+
+    <!--Alertify -->
+    <script type="text/javascript" src="lib/alertifyjs-1.8/alertify.js"></script>
+    <!--<link rel="stylesheet" href="lib/alertifyjs-1.8/css/alertify.css">-->
+
+    <link rel="stylesheet" href="lib/css/global.css">
+
+    <!--WEBSERVICE -->
+    <script type="text/javascript" src="lib/js/server.js"></script>
+    <script type="text/javascript" src="lib/js/master.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+
+      <script type="text/javascript">
+
+           let getPersonellerUrl = localStorage.getItem('serverAdress') + '?function=getPersoneller';
+
+           $(document).ready(function () {
+               $.ajax({
+                   type: "GET",
+                   url: getPersonellerUrl,
+                   dataType: "json",
+                   // contentType: "application/json; charset=utf-8",
+                   // async: true, // set to false if you don't mind the page pausing while waiting for response
+                   // cache: false,
+                   // dataType: "json",
+                   contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+
+
+
+                   success: function (response) {
+                       for (let i = 0; i < response['data'].length; i++) {
+                          /* $("#personeller").append("<a href=\"personel.html\"><input class=\"personel\" disabled type=\"button\" name=\"personelName\" " +
+                               "value='" + response['data'][i]['Ad'] + "' onclick='window.location=('personel.html?id=' + 'response['data'][i]['Oid'] +' )'></a>");*/
+
+                           $("#personeller").append('<a><input class="btn-project btn-outline-primary m-2 p-2 text-capitalize" type="button" name="personelName" id=' + response['data'][i]['Oid'] + ' value="' + response['data'][i]['TamAd'] + '" onclick="window.location=(\'personel.html?id=' + response['data'][i]['Oid'] + '\');"></a>');
+                           $(".personellerHeader").append('<input style="width: 100%" id="personellerHeader" type="text" disabled value="' + response['data'][i]['TamAd'] + '">');
+                       }
+                   },
+                   error: function (jqXHR, exception) {
+                       let msg = '';
+                       if (jqXHR.status === 0) {
+                           msg = 'Not connect.\n Verify Network.';
+                       } else if (jqXHR.status == 404) {
+                           msg = 'Requested page not found. [404]';
+                       } else if (jqXHR.status == 500) {
+                           msg = 'Internal Server Error [500].';
+                       } else if (exception === 'parsererror') {
+                           msg = 'Requested JSON parse failed.';
+                       } else if (exception === 'timeout') {
+                           msg = 'Time out error.';
+                       } else if (exception === 'abort') {
+                           msg = 'Ajax request aborted.';
+                       } else {
+                           msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                       }
+                       console.log(msg);
+                   },
+               });
+           });
+
+       </script>
+
+</head>
+
+<body>
+    <header class="header">
+        <ul class="nav justify-content-center bg-logo shadow p-2">
+            <li class="nav-item">
+                <a href="#">
+                    <img id="logo" src="img/mid.png" height="70rem;" alt="Logo">
+                </a>
+            </li>
+        </ul>
+
+        <h6 class="text-center display-6 my-4 header1">Personeller</h6>
+        <hr>
+    </header>
+
+    <section>
+        <div class="d-flex flex-column align-items-center mb-3" id="personeller">
+
+        </div>
+    </section>
+
+</body>
+</html>

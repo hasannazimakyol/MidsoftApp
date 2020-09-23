@@ -1,0 +1,22 @@
+.bg-logo {
+    background: #d6dde2;
+}
+
+.header1 {
+    color: #454e66;
+    font-size: 1.2em;
+}
+
+.header-personel1 {
+    color: #454e66;
+    font-size: 1.5rem;
+}
+
+.btn-project {
+    height: 3rem;
+    width: 15rem;
+    border-radius: 1.2rem;
+    background: #f5f3ee;
+    color: #242323;
+    border-color: darkgrey;
+}

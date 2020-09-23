@@ -1,0 +1,31 @@
+.bg-logo {
+    background: #d6dde2;
+}
+
+.header1 {
+    color: #454e66;
+    font-size: 1.2em;
+}
+
+.header-personel1 {
+    color: #454e66;
+    font-size: 1.5rem;
+}
+.btn {
+    box-shadow: 2px 4px 4px #7f95b8;
+    transform: translateY(4px);
+}
+
+.btn-project {
+    height: 3rem;
+    width: 15rem;
+    border-radius: 1.2rem;
+    background: #f5f3ee;
+    color: #242323;
+    border-color: darkgrey;
+}
+
+.btn-project:active {
+    box-shadow: 0 5px #a2a291;
+    transform: translateY(4px);
+}
